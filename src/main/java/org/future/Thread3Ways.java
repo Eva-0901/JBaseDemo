@@ -30,17 +30,22 @@ public class Thread3Ways {
     }
 
      void testThreadFuture() throws ExecutionException, InterruptedException {
+        //装饰器模式。
         ThreadFuture threadFuture = new ThreadFuture();
+        //使其获得了获取执行结果的能力。
         FutureTask<String> futureTask = new FutureTask<>(threadFuture);
-
+        //使其获得了作为线程执行的能力。
         Thread threadToExecute = new Thread(futureTask);
-
+        //执行。
         threadToExecute.start();
+        //获取结果。
         String result = futureTask.get();
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
+        //submit方法永远有一个返回值，future，每日思考之：当提交runnable的任务时，future.get返回null。
         Future<String> resultForPool = executorService.submit(new ThreadFuture());
+        //会阻塞当前主线程直到获取结果，为了避免长时间的阻塞，需要用超时的get方法。
         String resultForPoolStr = resultForPool.get();
 
         System.out.println(result);

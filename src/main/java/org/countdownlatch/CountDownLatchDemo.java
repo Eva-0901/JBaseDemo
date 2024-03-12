@@ -10,7 +10,7 @@ public class CountDownLatchDemo {
         CountDownLatch latch = new CountDownLatch(3);
         ExecutorService executorService = Executors.newFixedThreadPool(3);
         for (int i = 0; i < 3; i++) {
-            executorService.submit(new Worker(latch, String.valueOf(i)));
+            Future<?> future = executorService.submit(new Worker(latch, String.valueOf(i)));
         }
 
         //阻塞主线程，尝试获取state，直到state为0时再继续执行。

@@ -9,6 +9,7 @@ public class CASExample {
     public static AtomicInteger atomicInteger = new AtomicInteger(3);
 
     public static void main(String[] args) {
+        //CAS的关键是有一个expect value和一个new value.
         int expect = atomicInteger.get();
         int newVal = expect + 1;
 
@@ -20,5 +21,23 @@ public class CASExample {
 
         System.out.println(atomicInteger.get());
 
+    }
+
+    public NonStaticInnerClass testAccessNonStaticInnerClass(String pro) {
+        NonStaticInnerClass nonStaticInnerClass = new NonStaticInnerClass();
+        nonStaticInnerClass.setPro(pro);
+        return nonStaticInnerClass;
+    }
+
+    public class NonStaticInnerClass {
+        private String pro;
+
+        public void setPro(String pro) {
+            this.pro = pro;
+        }
+
+        public String getPro() {
+            return this.pro;
+        }
     }
 }
