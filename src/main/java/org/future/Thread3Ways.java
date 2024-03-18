@@ -35,6 +35,7 @@ public class Thread3Ways {
         //使其获得了获取执行结果的能力。
         FutureTask<String> futureTask = new FutureTask<>(threadFuture);
         //使其获得了作为线程执行的能力。
+         //因为thread只支持传入runnable，所以futureTask会实现runnable。
         Thread threadToExecute = new Thread(futureTask);
         //执行。
         threadToExecute.start();
@@ -44,7 +45,10 @@ public class Thread3Ways {
         ExecutorService executorService = Executors.newCachedThreadPool();
 
         //submit方法永远有一个返回值，future，每日思考之：当提交runnable的任务时，future.get返回null。
+         //submit方法的传入是实现了runnable/callable的任何东西。
         Future<String> resultForPool = executorService.submit(new ThreadFuture());
+        //因为实现了runnable，所以也可以提交。
+        //executorService.submit(futureTask);
         //会阻塞当前主线程直到获取结果，为了避免长时间的阻塞，需要用超时的get方法。
         String resultForPoolStr = resultForPool.get();
 
